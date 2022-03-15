@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.gamesapplication.R;
 import com.example.gamesapplication.data.all.Games;
 import com.example.gamesapplication.databinding.ActivityGameDetailBinding;
+import com.example.gamesapplication.utils.Constants;
 
 public class GameDetailActivity extends AppCompatActivity {
         private ActivityGameDetailBinding binding;
@@ -32,11 +33,20 @@ public class GameDetailActivity extends AppCompatActivity {
                 mviewModel = ViewModelProviders.of(this).get(GameDetailViewModel.class);
 
                 initObservers();
+                checkArguments();
                 getGameDetail();
 
         }
 
-                private void checkArguments(){
+                private void checkArguments() {
+                        Bundle bundle = getIntent().getExtras();
+                        if (bundle != null) {
+                                int gameId = bundle.getInt(Constants.GAME_ID);
+                                mviewModel.getGameDetail(gameId);
+                        }
+                        else{
+                                finish();
+                        }
                 }
 
         private void initObservers(){

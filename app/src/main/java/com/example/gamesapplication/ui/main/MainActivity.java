@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.gamesapplication.adapter.GameAdapter;
 import com.example.gamesapplication.data.search.SearchPart;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         this.initComponents();
         this.initClicks();
         this.initObservers();
-        this.observeGameData();
+        //this.observeGameData();
 
 
     }
@@ -54,29 +55,35 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initClicks(){
-        gameAdapter.setOnClickListener((pos, searchPart) ->{
+        binding.btnSearch.setOnClickListener(v -> mViewModel.search(binding.editSearch.getText().toString()));
+        gameAdapter.setOnClickListener((pos, game) ->{
             Log.d(CUSTOM_TAG, "onClick: ");
 
             Intent intent = new Intent(MainActivity.this, GameDetailActivity.class);
-            intent.putExtra(GAME_ID, searchPart.getId());
+            intent.putExtra(GAME_ID, game.getId());
             startActivity(intent);
         } );
     }
 
 
     private void initObservers(){
-        mViewModel.getGameList().observe(this, new Observer<List<SearchPart>>() {
+        mViewModel.getGameList().observe(this,this::prepareRecycler);
+        mViewModel.getSearchControl().observe(this, aBoolean -> {
+            if (aBoolean)
+                Toast.makeText(this, "You should enter at least one letter", Toast.LENGTH_SHORT).show();
+        });}
+      /*  mViewModel.getGameList().observe(this, new Observer<List<SearchPart>>() {
             @Override
             public void onChanged(List<SearchPart> searchParts) {
                 Log.d(CUSTOM_TAG, "onChanged: ");
                 prepareRecycler(searchParts);
             }
         });
-    }
+
 
     private void observeGameData() {
-        mViewModel.getGamesData();
-    }
+        mViewModel.getGamesData(GAME_ID);
+    }*/
 
     private void prepareRecycler(List<SearchPart> models) {
         gameAdapter.setAdapterList(models);

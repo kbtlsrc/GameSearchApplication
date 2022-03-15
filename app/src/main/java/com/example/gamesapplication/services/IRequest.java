@@ -12,7 +12,8 @@ import retrofit2.http.Query;
 public interface IRequest {
 
     @GET("games")
-    Call<List<SearchPart>> getGameList();
+    Call<List<SearchPart>> getGameList(@Query("api_key") String api_key,
+                                       @Query("query") String query);
 
 
     @GET("game")
