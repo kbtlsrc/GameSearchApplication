@@ -2,6 +2,7 @@ package com.example.gamesapplication.data.all;
 
 import java.util.List;
 
+import com.example.gamesapplication.data.search.SearchPart;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -52,6 +53,8 @@ public class Games {
     @SerializedName("screenshots")
     @Expose
     public List<Screenshot> screenshots = null;
+
+
 
 
     public Integer getId() {

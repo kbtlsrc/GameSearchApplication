@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gamesapplication.data.all.Games;
+import com.example.gamesapplication.data.search.SearchMain;
 import com.example.gamesapplication.data.search.SearchPart;
 import com.example.gamesapplication.services.ClientGames;
 import com.example.gamesapplication.services.IRequest;
@@ -21,9 +23,9 @@ import retrofit2.Response;
 public class MainViewModel extends ViewModel {
 
     private MutableLiveData<List<SearchPart>> gameList = new MutableLiveData<>();
-    private MutableLiveData<Boolean>searchControl =new MutableLiveData<>();
+   // private MutableLiveData<Boolean>searchControl =new MutableLiveData<>();
 
-    public void search(String query){
+   /* public void search(String query){
         if(!query.isEmpty()){
             searchControl.postValue(false);
             getGamesData(query);
@@ -31,32 +33,33 @@ public class MainViewModel extends ViewModel {
         else
             searchControl.postValue(true);
     }
+*/
 
 
-
-    public void getGamesData(String query){
+    public void getGamesData() {
         IRequest request = ClientGames.getApiClient().create(IRequest.class);
-        Call<List<SearchPart>> call = request.getGameList("https://www.freetogame.com/api/", query);
+        Call<List<SearchPart>> call = request.getGameList("https://www.freetogame.com/api/");
         call.enqueue(new Callback<List<SearchPart>>() {
             @Override
             public void onResponse(Call<List<SearchPart>> call, Response<List<SearchPart>> response) {
-                if(response.isSuccessful())
-                gameList.postValue(response.body());
+                if (response.isSuccessful()) {
+                    Log.d(CUSTOM_TAG, "onResponse: ");
+                    gameList.postValue(response.body());
+                }
             }
 
             @Override
             public void onFailure(Call<List<SearchPart>> call, Throwable t) {
                 Log.d(CUSTOM_TAG, "onFailure: ");
-
             }
         });
+        //return gameList;
     }
 
     public LiveData<List<SearchPart>> getGameList() {
-        return gameList;
-    }
+        return gameList; }
 
-    public MutableLiveData<Boolean> getSearchControl() {
+  /*  public MutableLiveData<Boolean> getSearchControl() {
         return searchControl;
-    }
+    }*/
 }

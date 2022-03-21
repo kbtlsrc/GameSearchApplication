@@ -21,7 +21,6 @@ import com.example.gamesapplication.utils.Constants;
 
 public class GameDetailActivity extends AppCompatActivity {
         private ActivityGameDetailBinding binding;
-
         private GameDetailViewModel mviewModel;
 
         @Override
@@ -33,12 +32,12 @@ public class GameDetailActivity extends AppCompatActivity {
                 mviewModel = ViewModelProviders.of(this).get(GameDetailViewModel.class);
 
                 initObservers();
-                checkArguments();
+                //checkArguments();
                 getGameDetail();
 
         }
 
-                private void checkArguments() {
+                /*  private void checkArguments() {
                         Bundle bundle = getIntent().getExtras();
                         if (bundle != null) {
                                 int gameId = bundle.getInt(Constants.GAME_ID);
@@ -46,11 +45,14 @@ public class GameDetailActivity extends AppCompatActivity {
                         }
                         else{
                                 finish();
+                                Toast.makeText(this, "Game not found.", Toast.LENGTH_SHORT).show();
                         }
-                }
+                }*/
+
 
         private void initObservers(){
-                mviewModel.getGameDetail().observe(this, new Observer<Games>() {
+                //mviewModel.getGameDetail().observe(this, this::prepareView);
+               mviewModel.getGameDetail().observe(this, new Observer<Games>() {
                         @Override
                         public void onChanged(Games games) {
                                 Log.d(CUSTOM_TAG, "onChanged: ");
@@ -60,8 +62,9 @@ public class GameDetailActivity extends AppCompatActivity {
         }
 
 
-        private void getGameDetail(){
+       private void getGameDetail(){
                 int gameId = 0;
+               //region get data from previous Activity
                 Bundle extras =getIntent().getExtras();
                 if(extras != null){
                         gameId = extras.getInt(GAME_ID, 0);

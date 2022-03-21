@@ -29,7 +29,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GamesViewHolde
         }
 
         public void setAdapterList(List<SearchPart> games){
-            this.games.clear();
+          //  this.games.clear();
             this.games.addAll(games);
             this.notifyDataSetChanged();
         }
@@ -82,7 +82,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GamesViewHolde
     }
 
     public interface ItemClickListener {
-        void onClick(int pos, SearchPart movie);
+        void onClick(int pos, SearchPart game);
     }
 
 
